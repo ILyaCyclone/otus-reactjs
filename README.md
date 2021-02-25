@@ -5,7 +5,7 @@ Homework for https://otus.ru/lessons/react/
 
 Run calculator in REPL mode with
 
-`npm run calc`
+`npm start`
 
 Supported operations: 
 
@@ -15,12 +15,12 @@ sum | `x + y`
 substract | `x - y`
 multiply | `x * y`
 divide | `x / y`
-|
+| | |
 remainder | `x % y`
 power | `x ^ y`
 square | `x **`
 factorial | `x !`
-|
+| | |
 sinus | `sin x`
 cosinus | `cos x`
 tangens | `tg x`

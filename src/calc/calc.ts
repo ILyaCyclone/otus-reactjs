@@ -1,6 +1,5 @@
 import * as math from "./math";
 
-
 const mathBinaryFunctions: Record<string, math.BinaryFunction> = {
     "+": math.sum,
     "-": math.sub,
@@ -23,7 +22,7 @@ const mathUnaryPostfixFunctions: Record<string, math.UnaryFunction> = {
     "**": math.sqr
 };
 
-
+// prettier-ignore
 const operatorPriorities: string[][] = [
     ["!"],
     ["**", "^"],
@@ -40,39 +39,43 @@ const allOperators: string[] = [...mathBinaryOperators, ...mathUnaryInfixOperato
 
 type Token = string | number;
 
-const isNumber = (test: any): boolean => !isNaN(+test);
+const isNumber = (test: Token): boolean => !isNaN(+test);
 const isOperator = (test: Token): boolean => allOperators.includes(test as string);
 
+const isGroupStart = (token: Token): boolean => token === "(";
+const isGroupEnd = (token: Token): boolean => token === ")";
+const isGroupBorder = (token: Token): boolean => isGroupStart(token) || isGroupEnd(token);
+
+const isPI = (token: Token): boolean => (token as string).toUpperCase() === "PI";
 
 export const evaluate = (equation: string): number => {
     // pad parentheses, so we tolerate joint parentheses in user input
-    equation = equation.replace(/\(/g, " ( ")
+    equation = equation
+        .replace(/\(/g, " ( ")
         .replace(/\)/g, " ) ")
         .replace(/\s{2,}/g, " ")
         .trim();
 
     const tokens: Token[] = equation.split(" ").map((tokenString: string) => {
         if (isNumber(tokenString)) return parseFloat(tokenString);
-        if (tokenString === "PI") return Math.PI;
+        if (isPI(tokenString)) return Math.PI;
         if (isOperator(tokenString)) return tokenString;
         if (isGroupBorder(tokenString)) return tokenString;
 
         throw new Error(`invalid equation: unknown token "${tokenString}"`);
-    })
+    });
 
     return calcPriority(tokens);
-}
-
+};
 
 const calcPriority = (tokens: Token[]): number => {
-
     if (tokens.length == 1) {
         const token: Token = tokens[0];
         if (!isNumber(token)) throw new Error(`invalid equation: unknown token left "${token}"`);
         return token as number;
     }
 
-    for (let i: number = 0; i < tokens.length; i++) {
+    for (let i = 0; i < tokens.length; i++) {
         if (isGroupStart(tokens[i])) {
             let groupsLevel = 1;
             let groupEndIndex: number | null = null;
@@ -82,7 +85,7 @@ const calcPriority = (tokens: Token[]): number => {
                 if (groupsLevel === 0) {
                     groupEndIndex = j;
                     break;
-                };
+                }
             }
             if (groupEndIndex === null) throw new Error("invalid equation: missing closing parethesis");
             const group: Token[] = tokens.slice(i + 1, groupEndIndex);
@@ -92,8 +95,8 @@ const calcPriority = (tokens: Token[]): number => {
         }
     }
 
-    for (let operators of operatorPriorities) {
-        for (let i: number = 0; i < tokens.length; i++) {
+    for (const operators of operatorPriorities) {
+        for (let i = 0; i < tokens.length; i++) {
             const token: Token = tokens[i];
             if (isOperator(token) && operators.includes(token as string)) {
                 const operator: string = token as string;
@@ -108,8 +111,7 @@ const calcPriority = (tokens: Token[]): number => {
     }
 
     throw new Error(`invalid equation: unknown tokens left "${tokens}"`);
-}
-
+};
 
 const calculateBinaryOperation = (tokens: Token[], index: number): number => {
     const operator: string = tokens[index] as string;
@@ -119,33 +121,28 @@ const calculateBinaryOperation = (tokens: Token[], index: number): number => {
     const result: number = mathBinaryFunction(x, y);
     const restTokens: Token[] = [...tokens.slice(0, index - 1), result, ...tokens.slice(index + 2)];
     return calcPriority(restTokens);
-}
+};
 
 const calculateUnaryPostfixOperation = (tokens: Token[], index: number): number => {
     const operator: string = tokens[index] as string;
     const mathUnaryPostfixFunction: math.UnaryFunction = mathUnaryPostfixFunctions[operator];
     const previousToken: Token = tokens[index - 1];
-    if (!isNumber(previousToken)) throw new Error("invalid equation: use postfix operators as follows: \"5 !\"")
+    if (!isNumber(previousToken)) throw new Error('invalid equation: use postfix operators as follows: "5 !"');
 
     const result: number = mathUnaryPostfixFunction(previousToken as number);
     const restTokens: Token[] = [...tokens.slice(0, index - 1), result, ...tokens.slice(index + 1)];
     return calcPriority(restTokens);
-}
+};
 
 const calculateUnaryInfixOperation = (tokens: Token[], index: number): number => {
-
     const operator: string = tokens[index] as string;
     const mathUnaryInfixFunction: math.UnaryFunction = mathUnaryInfixFunctions[operator];
     const nextToken: Token = tokens[index + 1];
-    if (!isNumber(nextToken)) throw new Error(`invalid equation: infix operator ${operator} at position ${index} is not followed by number: ${nextToken}`);
+    if (!isNumber(nextToken))
+        throw new Error(`invalid equation: infix operator ${operator} at position ${index} is not followed by number: ${nextToken}`);
 
     const result: number = mathUnaryInfixFunction(nextToken as number);
     const restTokens: Token[] = [...tokens.slice(0, index), result, ...tokens.slice(index + 2)];
 
     return calcPriority(restTokens);
-}
-
-
-const isGroupStart = (token: Token): boolean => token === "(";
-const isGroupEnd = (token: Token): boolean => token === ")";
-const isGroupBorder = (token: Token): boolean => isGroupStart(token) || isGroupEnd(token);
+};
