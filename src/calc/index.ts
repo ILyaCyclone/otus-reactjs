@@ -21,9 +21,13 @@ const question = (): Promise<void> =>
       process.exit(0);
     }
 
-    const result: number = evaluate(answer);
+    try {
+      const result: number = evaluate(answer);
+      console.log(result);
+    } catch (error) {
+        console.log(error.message);
+    }
 
-    console.log(result);
     resolve();
     });
   });

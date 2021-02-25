@@ -3,7 +3,7 @@ Homework for https://otus.ru/lessons/react/
 
 ## Console calculator
 
-Run calculator with
+Run calculator in REPL mode with
 
 `npm run calc`
 
@@ -11,15 +11,32 @@ Supported operations:
 
 Operation | Format
 --- | ---
-sum | `a + b`
-substract | `a - b`
-multiply | `a * b`
-divide | `a / b`
-power | `a ^ b`
-remainder | `a % b`
+sum | `x + y`
+substract | `x - y`
+multiply | `x * y`
+divide | `x / y`
+|
+remainder | `x % y`
+power | `x ^ y`
+square | `x **`
+factorial | `x !`
+|
+sinus | `sin x`
+cosinus | `cos x`
+tangens | `tg x`
+cotangens | `ctg x`
+fibonacci | `fib x`
+
+Pad numbers and operators with spaces, e.g. `1 + 2 + 3`.  
+
+Use parentheses `( )` to group operations, e.g. `5 * (3 ** - (2 + 1))` = 30
+
+Trigonometric operations use radians, so `PI` is supported, e.g. `sin(PI / 2)` = 1.
+
+Type `bye` or `quit` or `exit` to stop REPL.
 
 ## Tests
 
-Run tests with
+`npm test` will run tests
 
-`npm test`
+`npm run coverage` will run tests and generate coverage report 
