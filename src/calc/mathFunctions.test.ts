@@ -1,4 +1,4 @@
-import { sum, sub, mul, div, pow, rem } from "./math";
+import { sum, sub, mul, div, pow, rem } from "./mathFunctions";
 
 test("1 + 2 = 3", () => {
     expect(sum(1, 2)).toBe(3);

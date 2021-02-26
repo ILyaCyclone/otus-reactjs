@@ -13,10 +13,14 @@ export const cos: UnaryFunction = Math.cos;
 export const tg: UnaryFunction = Math.tan;
 export const ctg: UnaryFunction = (x) => 1 / Math.tan(x);
 
-export const factorial: UnaryFunction = (x: number) => (x <= 0 ? 1 : x * factorial(x - 1));
+export const factorial: UnaryFunction = (x: number) => {
+    if (!Number.isInteger(x) || x < 0) throw new Error("factorial is only supported for non-negative integers");
+    return x == 0 ? 1 : x * factorial(x - 1);
+};
 export const sqr: UnaryFunction = (x: number) => Math.pow(x, 2);
 
 export const fibonacci: UnaryFunction = (x: number) => {
+    if (!Number.isInteger(x) || x < 0) throw new Error("fibonacci is only supported for non-negative integers");
     let prev = 0;
     let next = 1;
     for (let i = 0; i < x; i++) {
