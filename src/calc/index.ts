@@ -33,7 +33,7 @@ const question = (): Promise<void> =>
     });
 
 async function app(): Promise<void> {
-    console.log("Enter your equation:");
+    console.log("Enter your expression:");
     while (true) {
         await question();
     }

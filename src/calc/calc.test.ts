@@ -1,6 +1,6 @@
 import { evaluate } from "./calc";
 
-describe("calc basic equations", () => {
+describe("calc basic expressions", () => {
     test("1 + 2 = 3", () => {
         expect(evaluate("1 + 2")).toBe(3);
     });
@@ -38,7 +38,7 @@ describe("calc basic equations", () => {
     });
 });
 
-describe("calc complex equations", () => {
+describe("calc complex expressions", () => {
     test("2 - 3 * 4 = -10", () => {
         expect(evaluate("2 - 3 * 4")).toBe(-10);
     });
@@ -58,10 +58,10 @@ describe("calc complex equations", () => {
 
 describe("calc relevant error message", () => {
     test('5 + a - unknown token "a"', () => {
-        expect(() => evaluate("5 + a")).toThrowError('invalid equation: unknown token "a"');
+        expect(() => evaluate("5 + a")).toThrowError('invalid expression: unknown token "a"');
     });
 
     test("1 + 2 10 - unknown tokens left", () => {
-        expect(() => evaluate("1 + 2 10")).toThrowError('invalid equation: unknown tokens left "3,10"');
+        expect(() => evaluate("1 + 2 10")).toThrowError('invalid expression: unknown tokens left "3,10"');
     });
 });

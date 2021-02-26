@@ -1,11 +1,11 @@
-import { parseEquation, tryParseGroup } from "./parser";
+import { parseExpression, tryParseGroup } from "./parser";
 
-test("parses equation into tokens", () => {
-    expect(parseEquation("5 * (1 + 2)")).toEqual([5, "*", "(", 1, "+", 2, ")"]);
+test("parses expression into tokens", () => {
+    expect(parseExpression("5 * (1 + 2)")).toEqual([5, "*", "(", 1, "+", 2, ")"]);
 });
 
 test("parses trigonometrics into tokens", () => {
-    expect(parseEquation("sin PI + cos(PI / 2)")).toEqual(["sin", Math.PI, "+", "cos", "(", Math.PI, "/", 2, ")"]);
+    expect(parseExpression("sin PI + cos(PI / 2)")).toEqual(["sin", Math.PI, "+", "cos", "(", Math.PI, "/", 2, ")"]);
 });
 
 test("parses group", () => {
@@ -28,6 +28,6 @@ test("returns null when not a group", () => {
 test("throws exception if group end symbol is not found", () => {
     const groupStartIndex = 2;
     expect(() => expect(tryParseGroup([5, "*", "(", 1, "+", "(", 3, "*", 5, ")"], groupStartIndex))).toThrowError(
-        "invalid equation: missing closing parenthesis"
+        "invalid expression: missing closing parenthesis"
     );
 });
