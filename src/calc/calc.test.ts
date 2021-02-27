@@ -64,4 +64,20 @@ describe("calc relevant error message", () => {
     test("1 + 2 10 - unknown tokens left", () => {
         expect(() => evaluate("1 + 2 10")).toThrowError('invalid expression: unknown tokens left "3,10"');
     });
+
+    test("1 + 2 + - binary operator must have two operands", () => {
+        expect(() => evaluate("1 + 2 +")).toThrowError('invalid expression: binary operator "+" must have 2 operands');
+    });
+
+    test("3 + ! 5 - use postfix operator", () => {
+        expect(() => evaluate("3 + ! 5")).toThrowError("invalid expression: use postfix operators as follows: 5 !");
+    });
+
+    test("3 + 5 fib + 1 - use infix operator", () => {
+        expect(() => evaluate("3 + 5 fib + 1")).toThrowError('invalid expression: infix operator "fib" is not followed by number: +');
+    });
+
+    test("! - unknown token left", () => {
+        expect(() => evaluate("!")).toThrowError('unknown token left "!"');
+    });
 });

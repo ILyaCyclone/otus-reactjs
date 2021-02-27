@@ -6,6 +6,7 @@ export const sub: BinaryFunction = (x, y) => x - y;
 export const mul: BinaryFunction = (x, y) => x * y;
 export const div: BinaryFunction = (x, y) => x / y;
 export const pow: BinaryFunction = Math.pow;
+export const sqr: UnaryFunction = (x: number) => Math.pow(x, 2);
 export const rem: BinaryFunction = (x, y) => x % y;
 
 export const sin: UnaryFunction = Math.sin;
@@ -17,7 +18,6 @@ export const factorial: UnaryFunction = (x: number) => {
     if (!Number.isInteger(x) || x < 0) throw new Error("factorial is only supported for non-negative integers");
     return x == 0 ? 1 : x * factorial(x - 1);
 };
-export const sqr: UnaryFunction = (x: number) => Math.pow(x, 2);
 
 export const fibonacci: UnaryFunction = (x: number) => {
     if (!Number.isInteger(x) || x < 0) throw new Error("fibonacci is only supported for non-negative integers");

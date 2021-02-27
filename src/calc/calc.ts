@@ -48,7 +48,7 @@ const calculate = (tokens: Token[]): number => {
                 if (isMathUnaryPostfixOperator(operator)) return calculateUnaryPostfixOperation(tokens, i);
                 if (isMathUnaryInfixOperator(operator)) return calculateUnaryInfixOperation(tokens, i);
 
-                throw new Error(`invalid expression: no suitable function for operator "${operator}" at position ${i}`);
+                throw new Error(`invalid expression: no suitable function for operator "${operator}"`);
             }
         }
     }
@@ -59,7 +59,7 @@ const calculate = (tokens: Token[]): number => {
 const calculateBinaryOperation: CalculateOperation = (tokens, operatorIndex) => {
     const operator: string = tokens[operatorIndex] as string;
     if (operatorIndex == 0 || operatorIndex == tokens.length - 1)
-        throw new Error(`invalid expression: binary operator "${operator}" at position ${operatorIndex} must have 2 operands`);
+        throw new Error(`invalid expression: binary operator "${operator}" must have 2 operands`);
 
     const x: number = tokens[operatorIndex - 1] as number;
     const y: number = tokens[operatorIndex + 1] as number;
@@ -73,7 +73,7 @@ const calculateUnaryPostfixOperation: CalculateOperation = (tokens, operatorInde
     const operator: string = tokens[operatorIndex] as string;
     const mathUnaryPostfixFunction: UnaryFunction = operatorUnaryPostfixFunctions[operator];
     const previousToken: Token = tokens[operatorIndex - 1];
-    if (!isNumber(previousToken)) throw new Error(`invalid expression: use postfix operators as follows: "5 ${operator}"`);
+    if (!isNumber(previousToken)) throw new Error(`invalid expression: use postfix operators as follows: 5 ${operator}`);
 
     const result: number = mathUnaryPostfixFunction(previousToken as number);
     const restTokens: Token[] = [...tokens.slice(0, operatorIndex - 1), result, ...tokens.slice(operatorIndex + 1)];
@@ -84,10 +84,7 @@ const calculateUnaryInfixOperation: CalculateOperation = (tokens, operatorIndex)
     const operator: string = tokens[operatorIndex] as string;
     const mathUnaryInfixFunction: UnaryFunction = operatorUnaryInfixFunctions[operator];
     const nextToken: Token = tokens[operatorIndex + 1];
-    if (!isNumber(nextToken))
-        throw new Error(
-            `invalid expression: infix operator "${operator}" at position ${operatorIndex} is not followed by number: ${nextToken}`
-        );
+    if (!isNumber(nextToken)) throw new Error(`invalid expression: infix operator "${operator}" is not followed by number: ${nextToken}`);
 
     const result: number = mathUnaryInfixFunction(nextToken as number);
     const restTokens: Token[] = [...tokens.slice(0, operatorIndex), result, ...tokens.slice(operatorIndex + 2)];
