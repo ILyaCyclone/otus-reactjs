@@ -1,0 +1,47 @@
+{
+  "name": "otus-reactjs-homeworks",
+  "version": "1.0.0",
+  "description": "Otus ReactJS course homeworks",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node ./src/calc/",
+    "build": "webpack",
+    "build:dev": "webpack --mode=development",
+    "watch": "webpack --watch",
+    "clean": "rm -rf dist coverage",
+    "test": "jest",
+    "coverage": "jest --collect-coverage",
+    "lint": "eslint ./src/calc/ --fix",
+    "check": "npm run lint && npm test"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run check",
+      "pre-push": "npm run check"
+    }
+  },
+  "author": "ilyacyclone",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-typescript": "^7.12.7",
+    "@types/jest": "^26.0.20",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "babel-jest": "^26.6.3",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^3.0.0",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^5.1.1",
+    "jest": "^26.6.3",
+    "prettier": "2.2.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
+  }
+}
